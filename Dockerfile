@@ -7,8 +7,10 @@ RUN npm install
 
 COPY . .
 
+COPY wait-for-db.sh /usr/local/bin/
+
 RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start:prod"]
+CMD ["sh", "/usr/local/bin/wait-for-db.sh", "db", "5432", "npm", "run", "start:prod"]

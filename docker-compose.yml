@@ -1,6 +1,32 @@
-version: '3'
 services:
-  frontend:
+  backend:
     build: .
     ports:
       - "4000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: ["sh", "/usr/local/bin/wait-for-db.sh", "db", "5432", "npm", "run", "start:prod"]
+    networks:
+      - backend_network
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: your_username
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
