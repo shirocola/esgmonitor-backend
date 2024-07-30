@@ -9,7 +9,9 @@ describe('CarbonFootprintController', () => {
       controllers: [CarbonFootprintController],
     }).compile();
 
-    controller = module.get<CarbonFootprintController>(CarbonFootprintController);
+    controller = module.get<CarbonFootprintController>(
+      CarbonFootprintController,
+    );
   });
 
   it('should be defined', () => {
