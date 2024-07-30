@@ -1,73 +1,95 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# EcoMonitor Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
+This is the backend service for the EcoMonitor application, built with NestJS. It provides APIs for environmental data collection, monitoring, carbon footprint tracking, and more.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Setup and Installation](#setup-and-installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Description
+## Features
+- Environmental data collection and monitoring
+- Carbon footprint tracking and reporting
+- User management with roles and permissions
+- Compliance reporting
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Technology Stack
+- **Backend:** NestJS
+- **Database:** PostgreSQL
+- **Authentication:** OAuth2, JWT
+- **Deployment:** Docker, Kubernetes
+- **CI/CD:** GitHub Actions, ArgoCD, Terraform, Azure
+- **Monitoring:** Prometheus, Grafana
 
-## Installation
+## Project Structure
+```plaintext
+esgmonitor-backend/
+├── src/
+│   ├── app.module.ts
+│   ├── main.ts
+│   ├── carbon-footprint/
+│   │   ├── carbon-footprint.controller.ts
+│   │   ├── carbon-footprint.entity.ts
+│   │   ├── carbon-footprint.module.ts
+│   │   ├── carbon-footprint.service.ts
+│   │   └── dto/
+│   │       └── create-carbon-footprint.dto.ts
+│   ├── common/
+│   └── config/
+│       └── configuration.ts
+├── test/
+├── .env
+├── Dockerfile
+├── docker-compose.yml
+├── package.json
+└── README.md
 
-```bash
-$ npm install
-```
 
-## Running the app
+## Setup and Installation
 
-```bash
-# development
-$ npm run start
+### Prerequisites
+- Node.js (v20.16.0)
+- PostgreSQL
+- Docker
 
-# watch mode
-$ npm run start:dev
+### Installation
+1. install dependencies:
+   ```bash
+   npm install
 
-# production mode
-$ npm run start:prod
-```
+2. Set up environment variables:
+   ```bash
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   DB_DATABASE=your_database
 
-## Test
+3. Start the application:
+   ```bash
+   npm run start:dev
 
-```bash
-# unit tests
-$ npm run test
+4. Run tests:
+   ```bash
+   npm run test
 
-# e2e tests
-$ npm run test:e2e
+## Usage
+- Access the API at `http://localhost:5000`
+- The API documentation can be accessed at `http://localhost:5000/api`
 
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
-
-Nest is [MIT licensed](LICENSE).
+Distributed under the MIT License. See `LICENSE` for more information.
