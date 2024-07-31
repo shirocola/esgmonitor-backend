@@ -33,19 +33,19 @@
         <mxCell id="8" value="Architecture" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
           <mxGeometry x="276" width="957" height="277" as="geometry" />
         </mxCell>
-        <mxCell id="9" value="Database" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;" vertex="1" parent="8">
+        <mxCell id="9" value="PostgreSQL" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;" vertex="1" parent="8">
           <mxGeometry x="177" y="117" width="84" height="62" as="geometry" />
         </mxCell>
-        <mxCell id="10" value="Tech Stack" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
+        <mxCell id="10" value="NestJS Backend" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
           <mxGeometry x="33" y="132" width="94" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="11" value="API" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
+        <mxCell id="11" value="API Gateway" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
           <mxGeometry x="424" y="129" width="41" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="12" value="Frontend" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
+        <mxCell id="12" value="Next.js Frontend" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
           <mxGeometry x="630" y="155" width="79" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="13" value="User Interface" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
+        <mxCell id="13" value="Flutter Mobile App" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="8">
           <mxGeometry x="824" y="92" width="116" height="32" as="geometry" />
         </mxCell>
         <mxCell id="14" value="" style="curved=1;startArrow=none;endArrow=block;exitX=-1.9334275265957446;exitY=0.4926263988018036;entryX=-3.2826450892857144;entryY=0.49619427034931796;" edge="1" parent="8" source="10" target="9">
