@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { CarbonFootprintModule } from './carbon-footprint/carbon-footprint.module';
+import { CarbonFootprintEntity } from './infrastructure/orm/carbonFootprintEntity';
+import { CarbonFootprintRepositoryImpl } from './infrastructure/repositories/carbonFootprintRepositoryImpl';
+import { CarbonFootprintController } from './interfaces/controllers/carbonFootprintController';
+import { AddCarbonFootprintEntry } from './application/usecases/addCarbonFootprintEntry';
 
 @Module({
   imports: [
@@ -11,14 +14,23 @@ import { CarbonFootprintModule } from './carbon-footprint/carbon-footprint.modul
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
+      port: parseInt(process.env.DB_PORT, 10),
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      autoLoadEntities: true,
+      entities: [CarbonFootprintEntity],
       synchronize: true,
     }),
-    CarbonFootprintModule,
+    TypeOrmModule.forFeature([CarbonFootprintEntity]),
+  ],
+  controllers: [CarbonFootprintController],
+  providers: [
+    CarbonFootprintRepositoryImpl,
+    {
+      provide: 'CarbonFootprintRepository',
+      useClass: CarbonFootprintRepositoryImpl,
+    },
+    AddCarbonFootprintEntry,
   ],
 })
 export class AppModule {}
