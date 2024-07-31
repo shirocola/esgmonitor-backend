@@ -5,6 +5,7 @@ import { CarbonFootprintEntity } from './infrastructure/orm/carbonFootprintEntit
 import { CarbonFootprintRepositoryImpl } from './infrastructure/repositories/carbonFootprintRepositoryImpl';
 import { CarbonFootprintController } from './interfaces/controllers/carbonFootprintController';
 import { AddCarbonFootprintEntry } from './application/usecases/addCarbonFootprintEntry';
+import { CarbonFootprintService } from './interfaces/controllers/carbonFootprintService'; // Import your service
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AddCarbonFootprintEntry } from './application/usecases/addCarbonFootpri
       useClass: CarbonFootprintRepositoryImpl,
     },
     AddCarbonFootprintEntry,
+    CarbonFootprintService, // Register your service here
   ],
 })
 export class AppModule {}
