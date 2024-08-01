@@ -1,14 +1,14 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { AddCarbonFootprintEntry } from '../../application/usecases/addCarbonFootprintEntry';
-import { CarbonFootprintService } from './carbonFootprintService'; // Import the new service
 import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
 import { CreateCarbonFootprintDto } from '../dto/createCarbonFootprintDto';
+import { ViewHistoricalData } from '../../application/usecases/viewHistoricalData';
 
 @Controller('carbon-footprint')
 export class CarbonFootprintController {
   constructor(
     private readonly addCarbonFootprintEntry: AddCarbonFootprintEntry,
-    private readonly carbonFootprintService: CarbonFootprintService, // Inject the new service
+    private readonly viewHistoricalData: ViewHistoricalData,
   ) {}
 
   @Post()
@@ -20,8 +20,13 @@ export class CarbonFootprintController {
     await this.addCarbonFootprintEntry.execute(entry);
   }
 
-  @Get()
-  async findAll(): Promise<CarbonFootprintEntry[]> {
-    return this.carbonFootprintService.findAll();
+  @Get('history')
+  async getHistory(
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ): Promise<CarbonFootprintEntry[]> {
+    const start = startDate ? new Date(startDate) : undefined;
+    const end = endDate ? new Date(endDate) : undefined;
+    return this.viewHistoricalData.execute(start, end);
   }
 }
