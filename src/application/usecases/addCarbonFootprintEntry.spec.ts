@@ -1,16 +1,20 @@
-// src/application/usecases/addCarbonFootprintEntry.test.ts
 import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
 import { AddCarbonFootprintEntry } from './addCarbonFootprintEntry';
 import { CarbonFootprintRepository } from '../../domain/repositories/carbonFootprintRepository';
 
 describe('AddCarbonFootprintEntry', () => {
-  it('should save a valid carbon footprint entry', async () => {
-    const repository: CarbonFootprintRepository = {
-      save: jest.fn().mockResolvedValueOnce(null),
-      findAll: jest.fn().mockResolvedValueOnce([]), // Mock implementation of findAll
-    };
+  let repository: CarbonFootprintRepository;
+  let useCase: AddCarbonFootprintEntry;
 
-    const useCase = new AddCarbonFootprintEntry(repository);
+  beforeEach(() => {
+    repository = {
+      save: jest.fn().mockResolvedValue(null),
+      findAll: jest.fn().mockResolvedValue([]),
+    };
+    useCase = new AddCarbonFootprintEntry(repository);
+  });
+
+  it('should save a valid carbon footprint entry', async () => {
     const entry = new CarbonFootprintEntry(
       'electricity',
       100,
@@ -24,16 +28,42 @@ describe('AddCarbonFootprintEntry', () => {
   });
 
   it('should throw an error for an invalid carbon footprint entry', async () => {
-    const repository: CarbonFootprintRepository = {
-      save: jest.fn(),
-      findAll: jest.fn().mockResolvedValueOnce([]), // Mock implementation of findAll
-    };
-
-    const useCase = new AddCarbonFootprintEntry(repository);
     const entry = new CarbonFootprintEntry('', -100, 'kWh', new Date());
 
     await expect(useCase.execute(entry)).rejects.toThrow(
       'Invalid carbon footprint entry',
     );
+  });
+
+  it('should log a message after successfully saving an entry', async () => {
+    const consoleSpy = jest.spyOn(console, 'log');
+    const entry = new CarbonFootprintEntry(
+      'electricity',
+      100,
+      'kWh',
+      new Date(),
+    );
+
+    await useCase.execute(entry);
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Carbon footprint entry saved:'),
+    );
+
+    consoleSpy.mockRestore();
+  });
+
+  it('should handle errors during saving gracefully', async () => {
+    const entry = new CarbonFootprintEntry(
+      'electricity',
+      100,
+      'kWh',
+      new Date(),
+    );
+    jest
+      .spyOn(repository, 'save')
+      .mockRejectedValueOnce(new Error('Database error'));
+
+    await expect(useCase.execute(entry)).rejects.toThrow('Database error');
   });
 });
