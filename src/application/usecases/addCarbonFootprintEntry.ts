@@ -4,9 +4,6 @@ import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry
 
 @Injectable()
 export class AddCarbonFootprintEntry {
-  findAll(): CarbonFootprintEntry[] | PromiseLike<CarbonFootprintEntry[]> {
-    throw new Error('Method not implemented.');
-  }
   constructor(
     @Inject('CarbonFootprintRepository')
     private readonly repository: CarbonFootprintRepository,

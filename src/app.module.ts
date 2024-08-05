@@ -3,9 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { CarbonFootprintEntity } from './infrastructure/orm/carbonFootprintEntity';
 import { CarbonFootprintRepositoryImpl } from './infrastructure/repositories/carbonFootprintRepositoryImpl';
-import { CarbonFootprintController } from './interfaces/controllers/carbonFootprintController';
 import { AddCarbonFootprintEntry } from './application/usecases/addCarbonFootprintEntry';
 import { ViewHistoricalData } from './application/usecases/viewHistoricalData';
+import { GenerateCarbonFootprintReport } from './application/usecases/generateCarbonFootprintReport';
+import { ReportRepositoryImpl } from './infrastructure/repositories/reportRepositoryImpl';
+import { CarbonFootprintController } from './interfaces/controllers/carbonFootprintController';
 
 @Module({
   imports: [
@@ -26,13 +28,17 @@ import { ViewHistoricalData } from './application/usecases/viewHistoricalData';
   ],
   controllers: [CarbonFootprintController],
   providers: [
-    CarbonFootprintRepositoryImpl,
     {
       provide: 'CarbonFootprintRepository',
       useClass: CarbonFootprintRepositoryImpl,
     },
     AddCarbonFootprintEntry,
     ViewHistoricalData,
+    {
+      provide: 'ReportRepository', // Provide the ReportRepository implementation
+      useClass: ReportRepositoryImpl,
+    },
+    GenerateCarbonFootprintReport, // Ensure this service is listed in the providers
   ],
 })
 export class AppModule {}
