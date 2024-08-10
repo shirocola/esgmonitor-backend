@@ -10,12 +10,12 @@ import {
 import { AddCarbonFootprintEntry } from '../../application/usecases/addCarbonFootprintEntry';
 import { ViewHistoricalData } from '../../application/usecases/viewHistoricalData';
 import { GenerateCarbonFootprintReport } from '../../application/usecases/generateCarbonFootprintReport';
-import { CreateCarbonFootprintDto } from '../dto/createCarbonFootprintDto';
 import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
-import { isValid, parseISO } from 'date-fns';
-import { Response } from 'express'; // Importing Response type from express
-import * as path from 'path'; // Importing path module
-import * as fs from 'fs'; // Importing fs module
+import { parseISO, isValid } from 'date-fns';
+import { Response } from 'express';
+import * as fs from 'fs';
+import { CreateCarbonFootprintDto } from '../dto/createCarbonFootprintDto';
+import { GenerateReportDto } from '../dto/generateReportDto';
 
 @Controller('api/carbon-footprint')
 export class CarbonFootprintController {
@@ -28,7 +28,7 @@ export class CarbonFootprintController {
   @Post()
   async addEntry(
     @Body() createCarbonFootprintDto: CreateCarbonFootprintDto,
-    @Res() res: Response, // Correctly typing the res object
+    @Res() res: Response,
   ) {
     try {
       const { name, value, unit, date } = createCarbonFootprintDto;
@@ -68,64 +68,90 @@ export class CarbonFootprintController {
 
   @Post('report')
   async generateReport(
-    @Query('startDate') startDate: string,
-    @Query('endDate') endDate: string,
-  ): Promise<{ reportPath: string }> {
+    @Body() generateReportDto: GenerateReportDto,
+    @Res() res: Response,
+  ) {
+    const { startDate, endDate, format } = generateReportDto;
     try {
-      console.log('Generating report with parameters:', { startDate, endDate });
+      console.log('Received request to generate report:', {
+        startDate,
+        endDate,
+        format,
+      });
 
-      if (!startDate || !endDate) {
-        throw new Error('startDate and endDate query parameters are required');
+      if (!startDate || !endDate || !format) {
+        console.error('Missing parameters');
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          message:
+            'startDate, endDate, and format query parameters are required',
+        });
       }
 
-      // Fetch entries for the specified date range
-      const entries = await this.viewHistoricalData.execute(
-        new Date(startDate),
-        new Date(endDate),
-      );
+      const start = new Date(startDate);
+      const end = new Date(endDate);
 
-      // Check if entries are fetched correctly
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        console.error('Invalid startDate or endDate');
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'Invalid startDate or endDate' });
+      }
+
+      const entries = await this.viewHistoricalData.execute(start, end);
+
       if (!entries.length) {
-        throw new Error('No entries found for the given date range');
+        console.error('No entries found for the given date range');
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ message: 'No entries found for the given date range' });
       }
 
       const reportPath = await this.generateCarbonFootprintReport.execute(
         entries,
-        new Date(startDate),
-        new Date(endDate),
+        start,
+        end,
+        format,
       );
 
-      return { reportPath };
+      if (!fs.existsSync(reportPath)) {
+        console.error('Generated report file not found at path:', reportPath);
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ message: 'Generated report file not found' });
+      }
+
+      const fileUrl = `/api/carbon-footprint/download?path=${encodeURIComponent(reportPath)}`;
+      console.log('Report generated successfully. File URL:', fileUrl);
+      return res
+        .status(HttpStatus.OK)
+        .json({ message: 'Report generated successfully', fileUrl });
     } catch (error) {
       console.error('Error in generateReport:', error);
-      throw new Error(`Failed to generate report: ${error.message}`);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: `Failed to generate report: ${error.message}`,
+        error: 'Internal Server Error',
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      });
     }
   }
 
-  @Get('report')
-  async getReport(@Res() res: Response) {
+  @Get('download')
+  async downloadReport(
+    @Query('path') reportPath: string,
+    @Res() res: Response,
+  ) {
     try {
-      const reportPath = path.join(
-        __dirname,
-        '..',
-        '..',
-        '..',
-        'reports',
-        'carbon-footprint-report.txt',
-      );
-
       if (!fs.existsSync(reportPath)) {
         return res
           .status(HttpStatus.NOT_FOUND)
           .json({ message: 'Report not found' });
       }
-
-      res.sendFile(reportPath);
+      res.download(reportPath);
     } catch (error) {
-      console.error('Error in getReport:', error);
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: `Failed to retrieve report: ${error.message}` });
+      console.error('Error in downloadReport:', error);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: `Failed to retrieve report: ${error.message}`,
+      });
     }
   }
 }
