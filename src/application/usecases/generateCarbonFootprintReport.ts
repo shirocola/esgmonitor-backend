@@ -2,10 +2,10 @@ import { Injectable, Inject } from '@nestjs/common';
 import { ReportRepository } from '../../domain/repositories/reportRepository';
 import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
 
-@Injectable() // Ensure this class is marked as injectable
+@Injectable()
 export class GenerateCarbonFootprintReport {
   constructor(
-    @Inject('ReportRepository') // Use the injection token consistently
+    @Inject('ReportRepository')
     private readonly reportRepository: ReportRepository,
   ) {}
 
@@ -13,11 +13,13 @@ export class GenerateCarbonFootprintReport {
     entries: CarbonFootprintEntry[],
     startDate: Date,
     endDate: Date,
+    format: 'pdf' | 'excel', // Add format parameter
   ): Promise<string> {
     try {
       console.log('Executing GenerateCarbonFootprintReport...');
       console.log('Entries:', entries);
       console.log('Start Date:', startDate, 'End Date:', endDate);
+      console.log('Format:', format);
 
       if (!Array.isArray(entries) || entries.length === 0) {
         throw new Error('Entries array is empty or not provided.');
@@ -31,16 +33,11 @@ export class GenerateCarbonFootprintReport {
         throw new Error('Invalid end date.');
       }
 
-      // Log entries and dates before generating the report
-      console.log('Generating report with the following parameters:');
-      console.log('Entries:', entries);
-      console.log('Start Date:', startDate.toISOString());
-      console.log('End Date:', endDate.toISOString());
-
       const reportUrl = await this.reportRepository.generateReport(
         entries,
         startDate,
         endDate,
+        format, // Pass format parameter
       );
 
       console.log('Report generated successfully:', reportUrl);

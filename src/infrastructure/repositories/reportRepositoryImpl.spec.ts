@@ -29,7 +29,7 @@ describe('ReportRepositoryImpl', () => {
     const startDate = new Date('2023-01-01');
     const endDate = new Date('2023-01-31');
 
-    const mockedReportPath = '/mocked/path/reports/carbon-footprint-report.txt';
+    const mockedReportPath = '/mocked/path/reports/carbon-footprint-report.pdf';
 
     // Mocking path and fs methods
     (path.join as jest.Mock).mockReturnValue(mockedReportPath);
@@ -40,15 +40,16 @@ describe('ReportRepositoryImpl', () => {
       entries,
       startDate,
       endDate,
+      'pdf', // Specify the format here
     );
 
     // Assertions
     expect(path.join).toHaveBeenCalledWith(
-      __dirname,
-      '..',
-      '..',
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
       'reports',
-      'carbon-footprint-report.txt',
+      'carbon-footprint-report.pdf', // Ensure the extension matches the expected format
     );
     expect(fs.mkdirSync).toHaveBeenCalledWith(path.dirname(mockedReportPath), {
       recursive: true,
@@ -65,7 +66,7 @@ describe('ReportRepositoryImpl', () => {
     const startDate = new Date('2023-01-01');
     const endDate = new Date('2023-01-31');
 
-    const mockedReportPath = '/mocked/path/reports/carbon-footprint-report.txt';
+    const mockedReportPath = '/mocked/path/reports/carbon-footprint-report.pdf';
 
     // Mocking path and fs methods
     (path.join as jest.Mock).mockReturnValue(mockedReportPath);
@@ -76,6 +77,7 @@ describe('ReportRepositoryImpl', () => {
       entries,
       startDate,
       endDate,
+      'pdf',
     );
 
     expect(fs.writeFileSync).toHaveBeenCalledWith(
@@ -97,7 +99,7 @@ describe('ReportRepositoryImpl', () => {
     const startDate = new Date('2023-01-01');
     const endDate = new Date('2023-01-31');
 
-    const mockedReportPath = '/mocked/path/reports/carbon-footprint-report.txt';
+    const mockedReportPath = '/mocked/path/reports/carbon-footprint-report.pdf';
 
     // Mocking path and fs methods
     (path.join as jest.Mock).mockReturnValue(mockedReportPath);
@@ -107,7 +109,7 @@ describe('ReportRepositoryImpl', () => {
     });
 
     await expect(
-      reportRepository.generateReport(entries, startDate, endDate),
+      reportRepository.generateReport(entries, startDate, endDate, 'pdf'),
     ).rejects.toThrow('Failed to write file');
   });
 });

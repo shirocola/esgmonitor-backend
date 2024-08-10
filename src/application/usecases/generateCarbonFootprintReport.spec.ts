@@ -46,12 +46,14 @@ describe('GenerateCarbonFootprintReport', () => {
       entries,
       startDate,
       endDate,
+      'excel',
     );
 
     expect(reportRepository.generateReport).toHaveBeenCalledWith(
       entries,
       startDate,
       endDate,
+      'excel',
     );
     expect(reportUrl).toBe('http://report.com');
   });
@@ -62,7 +64,12 @@ describe('GenerateCarbonFootprintReport', () => {
     const endDate = new Date('2023-01-31');
 
     await expect(
-      generateCarbonFootprintReport.execute(entries, startDate, endDate),
+      generateCarbonFootprintReport.execute(
+        entries,
+        startDate,
+        endDate,
+        'excel',
+      ),
     ).rejects.toThrow('Entries array is empty or not provided.');
   });
 
@@ -82,6 +89,7 @@ describe('GenerateCarbonFootprintReport', () => {
         entries,
         invalidDate,
         new Date('2023-01-31'),
+        'excel',
       ),
     ).rejects.toThrow('Invalid start date.');
   });
@@ -102,6 +110,7 @@ describe('GenerateCarbonFootprintReport', () => {
         entries,
         new Date('2023-01-01'),
         invalidDate,
+        'excel',
       ),
     ).rejects.toThrow('Invalid end date.');
   });
@@ -123,7 +132,12 @@ describe('GenerateCarbonFootprintReport', () => {
       .mockRejectedValue(new Error('Report generation failed'));
 
     await expect(
-      generateCarbonFootprintReport.execute(entries, startDate, endDate),
+      generateCarbonFootprintReport.execute(
+        entries,
+        startDate,
+        endDate,
+        'excel',
+      ),
     ).rejects.toThrow('Failed to generate report: Report generation failed');
   });
 });

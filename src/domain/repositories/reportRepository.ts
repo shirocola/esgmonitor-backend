@@ -5,5 +5,6 @@ export interface ReportRepository {
     entries: CarbonFootprintEntry[],
     startDate: Date,
     endDate: Date,
+    format: 'pdf' | 'excel', // Add format parameter here
   ): Promise<string>;
 }
