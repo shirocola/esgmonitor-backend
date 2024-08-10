@@ -45,9 +45,9 @@ describe('ReportRepositoryImpl', () => {
 
     // Assertions
     expect(path.join).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expect.anything(),
+      expect.any(String),
+      expect.any(String),
+      expect.any(String),
       'reports',
       'carbon-footprint-report.pdf', // Ensure the extension matches the expected format
     );
