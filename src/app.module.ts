@@ -1,14 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { CarbonFootprintEntity } from './infrastructure/orm/carbonFootprintEntity';
-import { CarbonFootprintRepositoryImpl } from './infrastructure/repositories/carbonFootprintRepositoryImpl';
-import { AddCarbonFootprintEntry } from './application/usecases/addCarbonFootprintEntry';
-import { ViewHistoricalData } from './application/usecases/viewHistoricalData';
-import { GenerateCarbonFootprintReport } from './application/usecases/generateCarbonFootprintReport';
-import { ReportRepositoryImpl } from './infrastructure/repositories/reportRepositoryImpl';
-import { CarbonFootprintController } from './interfaces/controllers/carbonFootprintController';
-import { GetRealTimeCarbonFootprintData } from './application/usecases/getRealTimeCarbonFootprintData';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './modules/user.module';
+import { CarbonFootprintModule } from './modules/carbon-footprint.module';
 
 @Module({
   imports: [
@@ -22,25 +16,11 @@ import { GetRealTimeCarbonFootprintData } from './application/usecases/getRealTi
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [CarbonFootprintEntity],
+      autoLoadEntities: true, // Automatically load entities from all modules
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([CarbonFootprintEntity]),
-  ],
-  controllers: [CarbonFootprintController],
-  providers: [
-    {
-      provide: 'CarbonFootprintRepository',
-      useClass: CarbonFootprintRepositoryImpl,
-    },
-    AddCarbonFootprintEntry,
-    ViewHistoricalData,
-    {
-      provide: 'ReportRepository',
-      useClass: ReportRepositoryImpl,
-    },
-    GenerateCarbonFootprintReport,
-    GetRealTimeCarbonFootprintData,
+    UserModule,
+    CarbonFootprintModule,
   ],
 })
 export class AppModule {}
