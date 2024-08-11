@@ -6,6 +6,7 @@ import { GenerateCarbonFootprintReport } from '../../application/usecases/genera
 import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
 import { GenerateReportDto } from '../dto/generateReportDto';
 import { CreateCarbonFootprintDto } from '../dto/createCarbonFootprintDto';
+import { GetRealTimeCarbonFootprintData } from '../../application/usecases/getRealTimeCarbonFootprintData';
 import { Response } from 'express';
 import * as fs from 'fs';
 
@@ -16,6 +17,7 @@ describe('CarbonFootprintController', () => {
   let viewHistoricalData: ViewHistoricalData;
   let generateCarbonFootprintReport: GenerateCarbonFootprintReport;
   let addCarbonFootprintEntry: AddCarbonFootprintEntry;
+  let getRealtimeCarbonFootprintData: GetRealTimeCarbonFootprintData;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -41,6 +43,12 @@ describe('CarbonFootprintController', () => {
               .mockResolvedValue('/path/to/generated/report.pdf'),
           },
         },
+        {
+          provide: GetRealTimeCarbonFootprintData,
+          useValue: {
+            execute: jest.fn().mockResolvedValue([]),
+          },
+        },
       ],
     }).compile();
 
@@ -53,6 +61,9 @@ describe('CarbonFootprintController', () => {
     );
     addCarbonFootprintEntry = module.get<AddCarbonFootprintEntry>(
       AddCarbonFootprintEntry,
+    );
+    getRealtimeCarbonFootprintData = module.get<GetRealTimeCarbonFootprintData>(
+      GetRealTimeCarbonFootprintData,
     );
   });
 
@@ -285,6 +296,46 @@ describe('CarbonFootprintController', () => {
         new Date(endDate),
       );
       expect(result).toEqual([]);
+    });
+  });
+
+  describe('getRealtimeData', () => {
+    it('should return real-time data', async () => {
+      const mockData: CarbonFootprintEntry[] = [
+        new CarbonFootprintEntry('electricity', 100, 'kWh', new Date()),
+      ];
+      jest
+        .spyOn(getRealtimeCarbonFootprintData, 'execute')
+        .mockResolvedValue(mockData);
+
+      const response = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis(),
+      } as unknown as Response;
+
+      await carbonFootprintController.getRealtimeData(response);
+
+      expect(getRealtimeCarbonFootprintData.execute).toHaveBeenCalled();
+      expect(response.status).toHaveBeenCalledWith(200);
+      expect(response.json).toHaveBeenCalledWith(mockData);
+    });
+
+    it('should handle errors when fetching real-time data', async () => {
+      jest
+        .spyOn(getRealtimeCarbonFootprintData, 'execute')
+        .mockRejectedValue(new Error('Error fetching data'));
+
+      const response = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis(),
+      } as unknown as Response;
+
+      await carbonFootprintController.getRealtimeData(response);
+
+      expect(response.status).toHaveBeenCalledWith(500);
+      expect(response.json).toHaveBeenCalledWith({
+        message: 'Failed to fetch real-time data: Error fetching data',
+      });
     });
   });
 });

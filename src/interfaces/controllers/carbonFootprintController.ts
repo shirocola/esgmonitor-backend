@@ -16,6 +16,7 @@ import { Response } from 'express';
 import * as fs from 'fs';
 import { CreateCarbonFootprintDto } from '../dto/createCarbonFootprintDto';
 import { GenerateReportDto } from '../dto/generateReportDto';
+import { GetRealTimeCarbonFootprintData } from '../../application/usecases/getRealTimeCarbonFootprintData';
 
 @Controller('api/carbon-footprint')
 export class CarbonFootprintController {
@@ -23,6 +24,7 @@ export class CarbonFootprintController {
     private readonly addCarbonFootprintEntry: AddCarbonFootprintEntry,
     private readonly viewHistoricalData: ViewHistoricalData,
     private readonly generateCarbonFootprintReport: GenerateCarbonFootprintReport,
+    private readonly getRealtimeCarbonFootprintData: GetRealTimeCarbonFootprintData,
   ) {}
 
   @Post()
@@ -152,6 +154,18 @@ export class CarbonFootprintController {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         message: `Failed to retrieve report: ${error.message}`,
       });
+    }
+  }
+
+  @Get('realtime')
+  async getRealtimeData(@Res() res: Response) {
+    try {
+      const data = await this.getRealtimeCarbonFootprintData.execute();
+      return res.status(HttpStatus.OK).json(data);
+    } catch (error) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: `Failed to fetch real-time data: ${error.message}` });
     }
   }
 }

@@ -10,6 +10,7 @@ describe('AddCarbonFootprintEntry', () => {
     repository = {
       save: jest.fn().mockResolvedValue(null),
       findAll: jest.fn().mockResolvedValue([]),
+      getRealTimeData: jest.fn().mockResolvedValue([]),
     };
     useCase = new AddCarbonFootprintEntry(repository);
   });

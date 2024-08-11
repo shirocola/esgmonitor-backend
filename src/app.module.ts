@@ -8,6 +8,7 @@ import { ViewHistoricalData } from './application/usecases/viewHistoricalData';
 import { GenerateCarbonFootprintReport } from './application/usecases/generateCarbonFootprintReport';
 import { ReportRepositoryImpl } from './infrastructure/repositories/reportRepositoryImpl';
 import { CarbonFootprintController } from './interfaces/controllers/carbonFootprintController';
+import { GetRealTimeCarbonFootprintData } from './application/usecases/getRealTimeCarbonFootprintData';
 
 @Module({
   imports: [
@@ -35,10 +36,11 @@ import { CarbonFootprintController } from './interfaces/controllers/carbonFootpr
     AddCarbonFootprintEntry,
     ViewHistoricalData,
     {
-      provide: 'ReportRepository', // Provide the ReportRepository implementation
+      provide: 'ReportRepository',
       useClass: ReportRepositoryImpl,
     },
-    GenerateCarbonFootprintReport, // Ensure this service is listed in the providers
+    GenerateCarbonFootprintReport,
+    GetRealTimeCarbonFootprintData,
   ],
 })
 export class AppModule {}

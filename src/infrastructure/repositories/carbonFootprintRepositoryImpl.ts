@@ -13,6 +13,23 @@ export class CarbonFootprintRepositoryImpl
     @InjectRepository(CarbonFootprintEntity)
     private readonly carbonFootprintRepo: Repository<CarbonFootprintEntity>,
   ) {}
+  async getRealTimeData(): Promise<CarbonFootprintEntry[]> {
+    const entities = await this.carbonFootprintRepo.find({
+      where: {
+        /* Add your conditions for real-time data here */
+      },
+      order: { date: 'DESC' }, // Example ordering by date
+    });
+    return entities.map(
+      (entity) =>
+        new CarbonFootprintEntry(
+          entity.name,
+          entity.value,
+          entity.unit,
+          entity.date,
+        ),
+    );
+  }
 
   async save(entry: CarbonFootprintEntry): Promise<void> {
     const entity = this.carbonFootprintRepo.create(entry);
