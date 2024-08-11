@@ -1,6 +1,6 @@
-import { ViewHistoricalData } from './viewHistoricalData';
-import { CarbonFootprintRepository } from '../../domain/repositories/carbonFootprintRepository';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
+import { ViewHistoricalData } from './view-historical-data.usecase';
+import { CarbonFootprintRepository } from '../../domain/repositories/carbon-footprint.repository';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
 
 describe('ViewHistoricalData Use Case', () => {
   let viewHistoricalData: ViewHistoricalData;

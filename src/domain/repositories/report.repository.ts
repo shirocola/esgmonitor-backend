@@ -1,4 +1,4 @@
-import { CarbonFootprintEntry } from '../entities/carbonFootprintEntry';
+import { CarbonFootprintEntry } from '../entities/carbon-footprint-entry.entity';
 
 export interface ReportRepository {
   generateReport(

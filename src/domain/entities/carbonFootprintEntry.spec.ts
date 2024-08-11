@@ -1,5 +1,5 @@
 // src/domain/entities/carbonFootprintEntry.test.ts
-import { CarbonFootprintEntry } from './carbonFootprintEntry';
+import { CarbonFootprintEntry } from './carbon-footprint-entry.entity';
 
 describe('CarbonFootprintEntry', () => {
   it('should create a valid CarbonFootprintEntry instance', () => {

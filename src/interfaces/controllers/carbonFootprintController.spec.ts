@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CarbonFootprintController } from './carbonFootprintController';
-import { AddCarbonFootprintEntry } from '../../application/usecases/addCarbonFootprintEntry';
-import { ViewHistoricalData } from '../../application/usecases/viewHistoricalData';
-import { GenerateCarbonFootprintReport } from '../../application/usecases/generateCarbonFootprintReport';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
-import { GenerateReportDto } from '../dto/generateReportDto';
-import { CreateCarbonFootprintDto } from '../dto/createCarbonFootprintDto';
-import { GetRealTimeCarbonFootprintData } from '../../application/usecases/getRealTimeCarbonFootprintData';
+import { CarbonFootprintController } from './carbon-footprint.controller';
+import { AddCarbonFootprintEntry } from '../../application/usecases/add-carbon-footprint-entry.usecase';
+import { ViewHistoricalData } from '../../application/usecases/view-historical-data.usecase';
+import { GenerateCarbonFootprintReport } from '../../application/usecases/generate-carbon-footprint-report.usecase';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
+import { GenerateReportDto } from '../dto/generate-report.dto';
+import { CreateCarbonFootprintDto } from '../dto/create-carbon-footprint.dto';
+import { GetRealTimeCarbonFootprintData } from '../../application/usecases/get-realtime-carbon-footprint-data.usecase';
 import { Response } from 'express';
 import * as fs from 'fs';
 

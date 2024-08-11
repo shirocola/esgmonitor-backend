@@ -1,8 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CarbonFootprintRepository } from '../../domain/repositories/carbonFootprintRepository';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
-import { CarbonFootprintEntity } from '../orm/carbonFootprintEntity';
+import { CarbonFootprintRepository } from '../../domain/repositories/carbon-footprint.repository';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
+import { CarbonFootprintEntity } from '../orm/carbon-footprint.entity';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

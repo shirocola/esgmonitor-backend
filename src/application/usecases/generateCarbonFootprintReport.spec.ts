@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GenerateCarbonFootprintReport } from './generateCarbonFootprintReport';
-import { ReportRepository } from '../../domain/repositories/reportRepository';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
+import { GenerateCarbonFootprintReport } from './generate-carbon-footprint-report.usecase';
+import { ReportRepository } from '../../domain/repositories/report.repository';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
 
 describe('GenerateCarbonFootprintReport', () => {
   let generateCarbonFootprintReport: GenerateCarbonFootprintReport;

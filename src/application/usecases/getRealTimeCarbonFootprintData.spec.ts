@@ -1,6 +1,6 @@
-import { GetRealTimeCarbonFootprintData } from './getRealTimeCarbonFootprintData';
-import { CarbonFootprintRepository } from '../../domain/repositories/carbonFootprintRepository';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
+import { GetRealTimeCarbonFootprintData } from './get-realtime-carbon-footprint-data.usecase';
+import { CarbonFootprintRepository } from '../../domain/repositories/carbon-footprint.repository';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
 
 describe('GetRealTimeCarbonFootprintData', () => {
   let getRealTimeCarbonFootprintData: GetRealTimeCarbonFootprintData;

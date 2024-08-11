@@ -1,6 +1,6 @@
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
-import { AddCarbonFootprintEntry } from './addCarbonFootprintEntry';
-import { CarbonFootprintRepository } from '../../domain/repositories/carbonFootprintRepository';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
+import { AddCarbonFootprintEntry } from './add-carbon-footprint-entry.usecase';
+import { CarbonFootprintRepository } from '../../domain/repositories/carbon-footprint.repository';
 
 describe('AddCarbonFootprintEntry', () => {
   let repository: CarbonFootprintRepository;

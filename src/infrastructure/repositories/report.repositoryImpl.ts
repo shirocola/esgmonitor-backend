@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ReportRepository } from '../../domain/repositories/reportRepository';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
+import { ReportRepository } from '../../domain/repositories/report.repository';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 

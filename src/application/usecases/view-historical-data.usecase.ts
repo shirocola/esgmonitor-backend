@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { CarbonFootprintRepository } from '../../domain/repositories/carbonFootprintRepository';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
+import { CarbonFootprintRepository } from '../../domain/repositories/carbon-footprint.repository';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
 
 @Injectable()
 export class ViewHistoricalData {

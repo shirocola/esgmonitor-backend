@@ -1,5 +1,5 @@
-import { ReportRepositoryImpl } from './reportRepositoryImpl';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
+import { ReportRepositoryImpl } from './report.repositoryImpl';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 

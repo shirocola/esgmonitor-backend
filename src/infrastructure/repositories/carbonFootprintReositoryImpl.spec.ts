@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CarbonFootprintRepositoryImpl } from './carbonFootprintRepositoryImpl';
-import { CarbonFootprintEntity } from '../orm/carbonFootprintEntity';
+import { CarbonFootprintRepositoryImpl } from './carbon-footprint.repository-impl';
+import { CarbonFootprintEntity } from '../orm/carbon-footprint.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CarbonFootprintEntry } from '../../domain/entities/carbonFootprintEntry';
+import { CarbonFootprintEntry } from '../../domain/entities/carbon-footprint-entry.entity';
 
 describe('CarbonFootprintRepositoryImpl', () => {
   let carbonFootprintRepository: CarbonFootprintRepositoryImpl;
